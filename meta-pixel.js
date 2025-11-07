@@ -1,4 +1,3 @@
-// meta-pixel.js (déposé dans ton repo GitHub)
 (function(){
   function getParam(name){
     try {
@@ -11,7 +10,6 @@
   var pixelID = getParam('pixel') || (window._externalPixelId || null);
   if(!pixelID) return;
 
-  // Inject Facebook Pixel library
   !function(f,b,e,v,n,t,s){
     if(f.fbq) return;
     n = f.fbq = function(){ n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
@@ -26,8 +24,6 @@
     fbq('track', 'PageView');
   } catch(e){ console.warn('fbq init failed', e); }
 
-  // Exemple d'écoute générique d'événements :
-  // Adapte les sélecteurs (.add-to-cart, .purchase-btn, .form-submit) à ton template.
   document.addEventListener('click', function(e){
     var t = e.target;
     // AddToCart : bouton avec classe .add-to-cart et attribut data-price
@@ -36,7 +32,6 @@
       var val = parseFloat(btn.getAttribute('data-price') || btn.dataset.price || 0) || 0;
       try { fbq('track', 'AddToCart', {value: val, currency: 'DZD'}); } catch(err){}
     }
-    // Purchase : bouton finalisation
     if(t.closest && t.closest('.purchase-btn') || t.matches && t.matches('.purchase-btn')){
       var btn2 = t.closest ? t.closest('.purchase-btn') : t;
       var total = parseFloat(btn2.getAttribute('data-total') || btn2.dataset.total || 0) || 0;
@@ -44,7 +39,6 @@
     }
   }, false);
 
-  // Si tu as des formulaires custom, trigger un Lead event quand soumis:
   document.addEventListener('submit', function(e){
     var form = e.target;
     if(form && (form.matches('.lead-form') || form.classList.contains('lead-form'))){
